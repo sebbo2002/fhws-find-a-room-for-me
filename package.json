@@ -1,0 +1,43 @@
+{
+  "name": "find-me-a-room-server",
+  "version": "0.0.1-dev",
+  "description": "find-me-a-room server",
+  "main": "server.js",
+  "private": true,
+  "scripts": {
+    "start": "node server.js --develop | bunyan -o short"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/sebbo/find-me-a-room-2.git"
+  },
+  "author": "Sebastian Pekarek",
+  "bugs": {
+    "url": "https://github.com/sebbo/find-me-a-room-2/issues"
+  },
+  "dependencies": {
+    "async": "^1.5.0",
+    "base-64": "^0.1.0",
+    "basic-auth": "^1.1.0",
+    "bcrypt": "^0.8.0",
+    "bcrypt-nodejs": "0.0.3",
+    "body-parser": "^1.9.2",
+    "bunyan": "^1.2.0",
+    "express": "^4.10.5",
+    "glob": "^4.0.6",
+    "iconv-lite": "^0.4.18",
+    "mysql": "^2.5.1",
+    "raven": "^0.7.2",
+    "request": "^2.81.0",
+    "sequelize": "^3.14.0",
+    "underscore": "^1.7.0"
+  },
+  "devDependencies": {
+    "bluebird": "^2.9.24",
+    "commander": "^2.8.1",
+    "grunt": "^0.4.5",
+    "grunt-contrib-jshint": "^0.11.1",
+    "grunt-contrib-watch": "^0.6.1",
+    "umzug": "^1.6.0"
+  }
+}

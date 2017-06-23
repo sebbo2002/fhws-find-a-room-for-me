@@ -1,0 +1,235 @@
+#!/usr/bin/env node
+'use strict';
+
+/**
+ * Syncs the database with the FHWS Infoboard
+ * on infoboard.fhws.de. Should run regulary to
+ * avoid missing or incorrect data in our
+ * database.
+ */
+
+
+const g = require('../helpers')({noServer: 1, isDev: true});
+const log = g.log('bin/infoboard-sync');
+const async = require('async');
+const moment = require('moment');
+const iconv = require('iconv-lite');
+const start = new Date();
+
+
+async.waterfall([
+	function getHTML (cb) {
+		const request = require('request');
+
+		request({
+			uri: g.config.infoBoardURL,
+			headers: {
+				'User-Agent': 'de.fhws.fiw.find-me-a-room app backend'
+			},
+			encoding: null
+		}, function (error, response, buffer) {
+			if (error) {
+				return cb(error);
+			}
+
+			cb(null, iconv.decode(buffer, 'ISO-8859-1'));
+		});
+	},
+	function parseHTML (html, cb) {
+		const result = [];
+
+		const regexen = [
+			/new Array\('[^']+',\s*'([^']+)',\s*'([^']+)',\s*'([^']+)',\s*'([^']+)',\s*'([^']+)',\s*'([^']*)',\s*'([^']*)',\s*'([^']*)',\s*'([^']*)'/m,
+			/^[A-Z]* ([^\[]+) \[/,
+			/\[([A-Z]+)/,
+			/\n/g
+		];
+
+		let match;
+		let entry;
+		let valid;
+
+		html = html.split('arrItems.sort();')[0];
+		//html = html.replace(regexen[3], '');
+
+		html.split('arrItems').forEach(function (html) {
+			match = html.match(regexen[0]);
+			if (!match) {
+				return;
+			}
+
+			valid = true;
+			entry = {
+				from: moment(match[1], 'YYYY.MM.DD HH:mm:ss'),
+				till: moment(match[2], 'YYYY.MM.DD HH:mm:ss'),
+				location: match[9],
+				room: match[4],
+				title: match[5].toString(),
+				notice: match[7],
+				person: match[6],
+				tag: null
+			};
+
+			match = entry.title.match(regexen[2]);
+			if (match) {
+				entry.tag = match[1];
+			}
+
+			// flatten title
+			match = entry.title.match(regexen[1]);
+			if (match) {
+				entry.title = match[1];
+			}
+
+			// short title
+			entry.title = entry.title.split(' - ')[0];
+
+			// remove "* "
+			if(entry.title.substr(0, 2) === '* ') {
+				entry.title = entry.title.substr(2);
+			}
+
+			// entfällt
+			if(entry.title.match(/entfällt/i) || entry.notice.match(/entfällt/i)) {
+				valid = false;
+			}
+
+			if(valid) {
+				result.push(entry);
+			}
+		});
+
+		cb(null, result);
+	},
+	function syncEntries (results, cb) {
+		async.mapLimit(results, 1, function (entry, cb) {
+			async.waterfall([
+				function findLocation (cb) {
+					g.models.location.find({
+						where: {
+							name_infoboard: entry.location
+						}
+					}).then(function (location) {
+						if (!location) {
+							log.warn('Location not found in database: `' + entry.location + '`');
+							return cb(true);
+						}
+
+						let t = {
+							location: location
+						};
+
+						cb(null, t);
+					}).catch(function (err) {
+						log.error(err);
+						cb(true);
+					});
+				},
+				function findRoom (t, cb) {
+					g.models.room.findOrCreate({
+						where: {
+							infoboard_name: entry.room,
+							location_id: t.location.id
+						},
+						defaults: {
+							name: entry.room
+						}
+					}).then(function (room) {
+						t.room = room[0];
+
+						cb(null, t);
+					}).catch(function (err) {
+						log.error(err);
+						cb(true);
+					});
+				},
+				function findOccupation (t, cb) {
+					g.models.occupation.find({
+						where: {
+							from: entry.from.toDate(),
+							till: entry.till.toDate(),
+							room_id: t.room.id
+						}
+					}).then(function (occupation) {
+						t.occupation = occupation;
+						cb(null, t);
+					}).catch(function (err) {
+						log.error(err);
+						cb(true);
+					});
+				},
+				function updateOccupation (t, cb) {
+					if (!t.occupation) {
+						return cb(null, t);
+					}
+
+					t.occupation.from = entry.from.toDate();
+					t.occupation.till = entry.till.toDate();
+					t.occupation.title = entry.title;
+					t.occupation.description = entry.description;
+					t.occupation.course = entry.tag;
+					t.occupation.lecturer = entry.person;
+					t.occupation.updated_at = new Date();
+					t.occupation.save().then(function () {
+						cb(null, t);
+					}).catch(function (err) {
+						log.error(err);
+						cb(true);
+					});
+				},
+				function createOccupation (t, cb) {
+					if (t.occupation) {
+						return cb(null, t);
+					}
+					if(!t.room.id) {
+						throw new Error('Hä? 2');
+					}
+
+					g.models.occupation.create({
+						state: g.config.states[0].id,
+						title: entry.title || g.config.states[0].title,
+						description: entry.notice || null,
+						course: entry.tag,
+						lecturer: entry.person,
+						from: entry.from.toDate(),
+						till: entry.till.toDate(),
+						room_id: t.room.id
+					}).then(function (occupation) {
+						t.occupation = occupation;
+						cb(null, t);
+					}).catch(function (err) {
+						log.error(err);
+						cb(true);
+					});
+				}
+			], function () {
+				cb();
+			});
+		}, function() {
+			cb();
+		});
+	},
+	function removeDeprecatedEntries(cb) {
+		g.models.occupation.destroy({
+			where: {
+				$and: [
+					{
+						updated_at: {
+							$lt: start
+						}
+					},
+					{
+						till: {
+							$gt: start
+						}
+					}
+				]
+			}
+		}).then(function() {
+			cb();
+		}).catch(function (err) {
+			log.error(err);
+			cb(true);
+		});
+	}
+]);
