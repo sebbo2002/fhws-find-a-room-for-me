@@ -47,7 +47,7 @@ push_develop:
     - git status
     - git config --global user.email "${COMMITTER_MAIL}"
     - git config --global user.name "${COMMITTER_NAME}"
-    - git commit -m "Backend ${CI_COMMIT_SHA} - ${MESSAGE}"
+    - git commit -m "[Backend] ${MESSAGE}"
     - git push
   only:
     - develop
