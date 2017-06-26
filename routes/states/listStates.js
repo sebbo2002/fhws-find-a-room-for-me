@@ -14,7 +14,8 @@ module.exports = function (g) {
 						id: state.id,
 						emoji: state.emoji,
 						title: state.title,
-						descriptionRequired: state.descriptionRequired
+						description: state.description,
+						commentRequired: state.commentRequired
 					}))
 			);
 		}

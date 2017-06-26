@@ -13,28 +13,32 @@ module.exports = function () {
 			id: 0,
 			emoji: '🗣',
 			title: 'Vorlesung',
-			descriptionRequired: false,
+			description: null,
+			commentRequired: false,
 			checkinAllowed: false
 		},
 		{
 			id: 1,
 			emoji: '⛔️',
 			title: 'Privat',
-			descriptionRequired: false,
+			description: 'Wenn du „Privat“ auswählst, bekommen alle Kommilitonen den Raum als belegt angezeigt.',
+			commentRequired: false,
 			checkinAllowed: true
 		},
 		{
 			id: 2,
 			emoji: '🔇',
-			title: 'Bitte leise sein',
-			descriptionRequired: false,
+			title: 'Leise',
+			description: 'Wenn du „Leise“ auswählst, bekommen alle Kommilitonen den Raum als belegt angezeigt. Sie dürfen allerdings mit zu dir kommen, wenn sie leise sind.',
+			commentRequired: false,
 			checkinAllowed: true
 		},
 		{
 			id: 3,
 			emoji: '🤓',
-			title: 'Privat-Tutorium',
-			descriptionRequired: true,
+			title: 'Tutorium',
+			description: 'Indem du „Tuorium“ auswählst kannst du Kommilitonen darauf aufmerksam machen, dass hier ein privates Tutorium stattfindet.',
+			commentRequired: true,
 			checkinAllowed: true
 		}
 	];
