@@ -50,4 +50,3 @@ push_develop:
     - git push
   only:
     - develop
-  allow_failure: true

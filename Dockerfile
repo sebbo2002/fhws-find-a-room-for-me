@@ -23,5 +23,5 @@ USER app
 RUN NODE_ENV=production grunt production && \
     chmod +x /home/app/app/bin/*
 
-ENV PATH /home/app/app/server/bin:$PATH
+ENV PATH /home/app/app/bin:$PATH
 CMD [ "start" ]
