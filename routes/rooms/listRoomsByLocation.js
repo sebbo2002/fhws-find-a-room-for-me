@@ -4,7 +4,7 @@ module.exports = function (g) {
 	return {
 		type: 'get',
 		path: '/locations/:id/rooms',
-		sessionRequired: false,
+		sessionRequired: true,
 
 		code: function (req, res) {
 			const log = g.log('routes/rooms/listLocationsByRoom', {req, res});
