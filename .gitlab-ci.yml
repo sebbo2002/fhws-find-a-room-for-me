@@ -17,7 +17,7 @@ push_develop:
   services:
   - docker:dind
   tags:
-    - matt.sebbo.net
+    - sabic.sebbo.net
     - ssh
   script:
     - pwd

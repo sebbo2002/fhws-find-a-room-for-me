@@ -16,7 +16,7 @@ RUN yarn install
 
 USER root
 COPY ./ /home/app/app/
-RUN chown -R app:backoffice /home/app/app && \
+RUN chown -R app:app /home/app/app && \
     chmod -R 740 /home/app/app
 
 USER app
