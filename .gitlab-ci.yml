@@ -7,7 +7,7 @@ build_image:
     - docker
   script:
     - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN docker.sebbo.net
-    - docker build -t docker.sebbo.net/sebbo2002/fhws-find-me-a-room-2/image .
+    - docker build -t docker.sebbo.net/sebbo2002/fhws-find-me-a-room-2/image --cache-from docker.sebbo.net/sebbo2002/fhws-find-me-a-room-2/image:latest .
     - docker push docker.sebbo.net/sebbo2002/fhws-find-me-a-room-2/image:latest
   only:
     - develop
