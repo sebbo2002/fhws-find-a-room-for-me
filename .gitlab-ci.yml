@@ -2,9 +2,48 @@ build_image:
   image: docker:git
   services:
   - docker:dind
+  tags:
+    - matt.sebbo.net
+    - docker
   script:
     - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN docker.sebbo.net
     - docker build -t docker.sebbo.net/sebbo2002/fhws-find-me-a-room-2/image .
     - docker push docker.sebbo.net/sebbo2002/fhws-find-me-a-room-2/image:latest
   only:
     - develop
+
+push_develop:
+  image: docker:git
+  services:
+  - docker:dind
+  tags:
+    - matt.sebbo.net
+    - ssh
+  script:
+    - pwd
+    - git clone ssh://git@bitbucket.student.fiw.fhws.de:7999/mob/g01findmearoom.git bitbucket
+    - cd ./bitbucket/
+    - git status
+    - git checkout ${CI_COMMIT_REF_NAME}
+    - git status
+    - cd ../
+    - mv ./bin ./bitbucket/
+    - mv ./helpers ./bitbucket/
+    - mv ./migrations ./bitbucket/
+    - mv ./models ./bitbucket/
+    - mv ./routes ./bitbucket/
+    - mv ./.dockerfile ./bitbucket/
+    - mv ./.gitignore ./bitbucket/
+    - mv ./.gitlab-ci.yml ./bitbucket/
+    - mv ./Dockerfile ./bitbucket/
+    - mv ./gruntfile.js ./bitbucket/
+    - mv ./package.json ./bitbucket/
+    - mv ./server.js ./bitbucket/
+    - MESSAGE=$(git log -1 --pretty=%B)
+    - cd ./bitbucket/
+    - git status
+    - git commit -am "Server: ${CI_COMMIT_SHA} (${MESSAGE})"
+    - git push
+  only:
+    - develop
+  allow_failure: true
