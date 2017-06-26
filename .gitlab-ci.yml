@@ -27,18 +27,19 @@ push_develop:
     - git checkout ${CI_COMMIT_REF_NAME}
     - git status
     - cd ../
-    - mv ./bin ./bitbucket/
-    - mv ./helpers ./bitbucket/
-    - mv ./migrations ./bitbucket/
-    - mv ./models ./bitbucket/
-    - mv ./routes ./bitbucket/
-    - mv ./.dockerfile ./bitbucket/
-    - mv ./.gitignore ./bitbucket/
-    - mv ./.gitlab-ci.yml ./bitbucket/
-    - mv ./Dockerfile ./bitbucket/
-    - mv ./gruntfile.js ./bitbucket/
-    - mv ./package.json ./bitbucket/
-    - mv ./server.js ./bitbucket/
+    - mkdir -p ./backend/
+    - mv ./bin ./bitbucket/backend/
+    - mv ./helpers ./bitbucket/backend/
+    - mv ./migrations ./bitbucket/backend/
+    - mv ./models ./bitbucket/backend/
+    - mv ./routes ./bitbucket/backend/
+    - mv ./.dockerfile ./bitbucket/backend/
+    - mv ./.gitignore ./bitbucket/backend/
+    - mv ./.gitlab-ci.yml ./bitbucket/backend/
+    - mv ./Dockerfile ./bitbucket/backend/
+    - mv ./gruntfile.js ./bitbucket/backend/
+    - mv ./package.json ./bitbucket/backend/
+    - mv ./server.js ./bitbucket/backend/
     - MESSAGE=$(git log -1 --pretty=%B)
     - cd ./bitbucket/
     - git status
