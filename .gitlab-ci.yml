@@ -26,9 +26,9 @@ push_develop:
     - git status
     - git checkout ${CI_COMMIT_REF_NAME}
     - git status
-    - cd ../
     - rm -rf ./backend/
     - mkdir -p ./backend/
+    - cd ../
     - mv ./bin ./bitbucket/backend/
     - mv ./helpers ./bitbucket/backend/
     - mv ./migrations ./bitbucket/backend/
