@@ -17,11 +17,11 @@ push_develop:
   services:
   - docker:dind
   tags:
-    - sabic.sebbo.net
-    - ssh
+    - matt.sebbo.net
+    - docker
   script:
     - pwd
-    - git clone ssh://git@bitbucket.student.fiw.fhws.de:7999/mob/g01findmearoom.git bitbucket
+    - git clone ${BITBUCKET_URL} bitbucket
     - cd ./bitbucket/
     - git status
     - git checkout ${CI_COMMIT_REF_NAME}
