@@ -29,7 +29,7 @@ module.exports = function () {
 			id: 2,
 			emoji: '🔇',
 			title: 'Leise',
-			description: 'Wenn du „Leise“ auswählst, bekommen alle Kommilitonen den Raum als belegt angezeigt. Sie dürfen allerdings mit zu dir kommen, wenn sie leise sind.',
+			description: 'Wenn du „Leise“ auswählst, bekommen alle Kommilitonen den Raum als belegt angezeigt. Sie dürfen allerdings mit zu Dir kommen, wenn sie leise sind.',
 			commentRequired: false,
 			checkinAllowed: true
 		},
@@ -37,7 +37,7 @@ module.exports = function () {
 			id: 3,
 			emoji: '🤓',
 			title: 'Tutorium',
-			description: 'Indem du „Tuorium“ auswählst kannst du Kommilitonen darauf aufmerksam machen, dass hier ein privates Tutorium stattfindet.',
+			description: 'Indem du „Tutorium“ auswählst kannst du Kommilitonen darauf aufmerksam machen, dass hier ein privates Tutorium stattfindet.',
 			commentRequired: true,
 			checkinAllowed: true
 		}
