@@ -43,6 +43,8 @@ push_develop:
     - MESSAGE=$(git log -1 --pretty=%B)
     - cd ./bitbucket/
     - git status
+    - git config --global user.email "${COMMITTER_MAIL}"
+    - git config --global user.name "${COMMITTER_NAME}"
     - git commit -am "Backend ${CI_COMMIT_SHA} - ${MESSAGE}"
     - git push
   only:
