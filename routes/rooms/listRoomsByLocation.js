@@ -135,7 +135,7 @@ module.exports = function (g) {
 					result.score += r.inventory_speaker_desk_displays ? 15 : 0;
 
 					// Punkte abziehen wenn Raum zu groß für Lerngruppen
-					if(r.inventory_seats) {
+					if (r.inventory_seats) {
 						result.score -= Math.max(r.inventory_seats - 30, 0) ^ 2;
 					}
 
@@ -158,16 +158,16 @@ module.exports = function (g) {
 
 
 					/** TEXT **/
-					if(result.occupiedTill && result.thenFreeTill) {
+					if (result.occupiedTill && result.thenFreeTill) {
 						result.text = 'bis ' + result.occupiedTill.format('k:mm') + ' Uhr belegt, dann bis ' + result.thenFreeTill.format('k:mm') + ' Uhr frei';
 					}
-					else if(result.occupiedTill) {
+					else if (result.occupiedTill) {
 						result.text = 'bis ' + result.occupiedTill.format('k:mm') + ' Uhr belegt, dann frei';
 					}
-					else if(result.freeTill && result.thenOccupiedTill) {
+					else if (result.freeTill && result.thenOccupiedTill) {
 						result.text = 'bis ' + result.freeTill.format('k:mm') + ' Uhr frei, dann bis ' + result.thenOccupiedTill.format('k:mm') + ' Uhr belegt';
 					}
-					else if(result.freeTill) {
+					else if (result.freeTill) {
 						result.text = 'bis ' + result.freeTill.format('k:mm') + ' Uhr frei, dann belegt';
 					}
 					else {

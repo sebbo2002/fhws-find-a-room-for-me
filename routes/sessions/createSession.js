@@ -11,7 +11,7 @@ module.exports = function (g) {
 			const log = g.log('routes/session/createSession', {req, res});
 
 			async.waterfall([
-				function generateSecret(cb) {
+				function generateSecret (cb) {
 					require('crypto').randomBytes(32, function (error, buffer) {
 						if (error) {
 							return cb(error);

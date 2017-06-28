@@ -85,16 +85,16 @@ async.waterfall([
 			entry.title = entry.title.split(' - ')[0];
 
 			// remove "* "
-			if(entry.title.substr(0, 2) === '* ') {
+			if (entry.title.substr(0, 2) === '* ') {
 				entry.title = entry.title.substr(2);
 			}
 
 			// entfällt
-			if(entry.title.match(/entfällt/i) || entry.notice.match(/entfällt/i)) {
+			if (entry.title.match(/entfällt/i) || entry.notice.match(/entfällt/i)) {
 				valid = false;
 			}
 
-			if(valid) {
+			if (valid) {
 				result.push(entry);
 			}
 		});
@@ -181,7 +181,7 @@ async.waterfall([
 					if (t.occupation) {
 						return cb(null, t);
 					}
-					if(!t.room.id) {
+					if (!t.room.id) {
 						throw new Error('Hä? 2');
 					}
 
@@ -205,11 +205,11 @@ async.waterfall([
 			], function () {
 				cb();
 			});
-		}, function() {
+		}, function () {
 			cb();
 		});
 	},
-	function removeDeprecatedEntries(cb) {
+	function removeDeprecatedEntries (cb) {
 		g.models.occupation.destroy({
 			where: {
 				$and: [
@@ -225,7 +225,7 @@ async.waterfall([
 					}
 				]
 			}
-		}).then(function() {
+		}).then(function () {
 			cb();
 		}).catch(function (err) {
 			log.error(err);

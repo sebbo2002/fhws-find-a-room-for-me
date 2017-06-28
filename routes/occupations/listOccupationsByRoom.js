@@ -20,7 +20,7 @@ module.exports = function (g) {
 				},
 				order: [['from', 'ASC'], ['till', 'ASC']]
 			}).then(function (occupations) {
-				res.send(occupations.map(function(data) {
+				res.send(occupations.map(function (data) {
 					const state = g.config.states.filter(state => state.id === data.state)[0] || {};
 
 					return {

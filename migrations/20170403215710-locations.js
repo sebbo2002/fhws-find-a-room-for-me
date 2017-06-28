@@ -11,7 +11,7 @@ module.exports = {
 			description: 'Fakultäten Gestaltung (FG) sowie Informatik und Wirtschaftsinformatik (FIW), Studierendenvertretung und weitere',
 			geo_lat: 49.777118,
 			geo_lng: 9.962518
-		}).then(function() {
+		}).then(function () {
 			return g.models.location.create({
 				name_short: 'RöRi',
 				name_long: 'Röntgenring',
@@ -20,7 +20,7 @@ module.exports = {
 				geo_lat: 49.7999549,
 				geo_lng: 9.9302398
 			});
-		}).then(function() {
+		}).then(function () {
 			return g.models.location.create({
 				name_short: 'Münz',
 				name_long: 'Münzstraße / Sanderring',
@@ -29,7 +29,7 @@ module.exports = {
 				geo_lat: 49.7871884,
 				geo_lng: 9.9303223
 			});
-		}).then(function() {
+		}).then(function () {
 			return g.models.location.create({
 				name_short: 'FRI',
 				name_long: 'Friedrichstraße',
@@ -38,7 +38,7 @@ module.exports = {
 				geo_lat: 49.796466,
 				geo_lng: 9.913211
 			});
-		}).then(function() {
+		}).then(function () {
 			return g.models.location.create({
 				name_short: 'Münz19',
 				name_long: 'Münzstraße 19',
@@ -47,7 +47,7 @@ module.exports = {
 				geo_lat: 49.787422,
 				geo_lng: 9.933672
 			});
-		}).then(function() {
+		}).then(function () {
 			return g.models.location.create({
 				name_short: 'CAMP1',
 				name_long: 'Campus I',
@@ -56,7 +56,7 @@ module.exports = {
 				geo_lat: 50.044893,
 				geo_lng: 10.210169
 			});
-		}).then(function() {
+		}).then(function () {
 			return g.models.location.create({
 				name_short: 'CAMP2',
 				name_long: 'Campus II',

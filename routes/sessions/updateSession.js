@@ -12,24 +12,24 @@ module.exports = function (g) {
 
 			const session = req.session;
 
-			if(req.body.systemVersion !== undefined) {
+			if (req.body.systemVersion !== undefined) {
 				session.system_version = req.body.systemVersion;
 			}
-			if(req.body.deviceName !== undefined) {
+			if (req.body.deviceName !== undefined) {
 				session.device_name = req.body.deviceName;
 			}
-			if(req.body.pushToken !== undefined) {
+			if (req.body.pushToken !== undefined) {
 				session.push_token = req.body.pushToken;
 			}
 
-			session.save().then(function() {
+			session.save().then(function () {
 				res.send({
 					id: session.id,
 					systemVersion: session.system_version,
 					deviceName: session.device_name,
 					pushToken: session.push_token
 				});
-			}).catch(function(error) {
+			}).catch(function (error) {
 				const logged = log.error(error);
 				res.status(500).send({
 					message: 'Not able to update your session, please try again later…',

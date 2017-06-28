@@ -96,13 +96,13 @@ module.exports = {
 		];
 
 		return new Bluebird(function (resolve, reject) {
-			async.mapSeries(inventory, function(item, cb) {
+			async.mapSeries(inventory, function (item, cb) {
 				g.models.location.find({
 					where: {
 						name_short: item.location
 					}
-				}).then(function(location) {
-					if(!location) {
+				}).then(function (location) {
+					if (!location) {
 						return cb(new Error('Location not found: `' + item.location + '`'));
 					}
 
@@ -111,8 +111,8 @@ module.exports = {
 							name: item.room,
 							location_id: location.id
 						}
-					}).then(function(room) {
-						if(!room) {
+					}).then(function (room) {
+						if (!room) {
 							//return cb(new Error('Room not found: `' + item.room + '`'));
 							room = g.models.room.build({
 								name: item.room,
@@ -121,21 +121,21 @@ module.exports = {
 							});
 						}
 
-						_.each(item, function(value, key) {
-							if(['location', 'room'].indexOf(key) === -1) {
+						_.each(item, function (value, key) {
+							if (['location', 'room'].indexOf(key) === -1) {
 								room[key] = value;
 							}
 						});
 
-						room.save().then(function() {
+						room.save().then(function () {
 							cb();
 						}).catch(cb);
 					}).catch(cb);
 				}).catch(cb);
-			}, function(err) {
-				if(err) {
+			}, function (err) {
+				if (err) {
 					reject(err);
-				}else{
+				} else {
 					resolve();
 				}
 			});

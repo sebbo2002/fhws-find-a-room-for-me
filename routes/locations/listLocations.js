@@ -9,7 +9,7 @@ module.exports = function (g) {
 		code: function (req, res) {
 			const log = g.log('routes/locations/listLocations', {req, res});
 
-			g.models.location.findAll().then(function(locations) {
+			g.models.location.findAll().then(function (locations) {
 				res.send(
 					locations.map(l => ({
 						id: l.id,
@@ -24,7 +24,7 @@ module.exports = function (g) {
 						}
 					}))
 				);
-			}).catch(function(error) {
+			}).catch(function (error) {
 				const logged = log.error(error);
 				res.status(500).send({
 					message: 'Not able fetch locations, please try again later…',
