@@ -113,7 +113,7 @@ module.exports = function (g) {
 
 
 					/** SCORE **/
-					result.score = 600;
+					result.score = 800;
 
 					// minutes, this room is not blocked
 					unblockedInMinutes = result.occupiedTill ? Math.floor(
@@ -146,7 +146,7 @@ module.exports = function (g) {
 
 
 					/** COLORS **/
-					if (result.score > 650) {
+					if (result.score > 725) {
 						result.color = 'green';
 					}
 					else if (result.occupiedTill) {
