@@ -32,6 +32,14 @@ module.exports = function (g) {
 							}
 						},
 						required: false
+					},
+					{
+						model: g.models.session,
+						as: 'Favorites',
+						where: {
+							id: req.session.id
+						},
+						required: false
 					}
 				]
 			}).then(function (rooms) {
@@ -54,7 +62,7 @@ module.exports = function (g) {
 						blocks: [],
 
 						score: null,
-						isFav: null,
+						isFav: !!r.Favorites.length,
 						color: 'green',
 						text: 'frei',
 						checkinAllowed: true,

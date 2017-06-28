@@ -44,6 +44,9 @@ module.exports = function (g) {
 	result.models.room.hasMany(result.models.occupation, {as: 'Occupations'});
 	result.models.occupation.belongsTo(result.models.room);
 
+	result.models.session.belongsToMany(result.models.room, {as: 'Favorites', through: 'favorites'});
+	result.models.room.belongsToMany(result.models.session, {as: 'Favorites', through: 'favorites'});
+
 
 	// sequelize
 	result.sequelize = sequelize;
