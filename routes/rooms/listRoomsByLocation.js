@@ -143,7 +143,6 @@ module.exports = function (g) {
 					else if(result.occupiedTill && result.thenFreeTill) {
 						unblockedInMinutes = Math.floor(result.thenFreeTill.unix() - result.occupiedTill.unix()) / 60;
 						result.score -= Math.round(0.1 * unblockedInMinutes);
-						result.debug = Math.round(0.1 * unblockedInMinutes);
 					}
 
 					// 100 Punkte Abzug, wenn aktuell belegt
