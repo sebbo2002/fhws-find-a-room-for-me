@@ -158,7 +158,7 @@ module.exports = function (g) {
 
 					// Punkte abziehen wenn Raum zu groß für Lerngruppen
 					if (r.inventory_seats) {
-						result.score -= Math.max(r.inventory_seats - 30, 0) ^ 2;
+						result.score -= Math.min(Math.max(r.inventory_seats - 30, 0), 100);
 					}
 
 					result.score = Math.round(result.score);
