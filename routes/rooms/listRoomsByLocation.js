@@ -65,7 +65,7 @@ module.exports = function (g) {
 						isFav: !!r.Favorites.length,
 						color: 'green',
 						text: 'frei',
-						checkinAllowed: true,
+						checkinAllowed: false,
 
 						freeTill: null,
 						occupiedTill: null,
@@ -129,7 +129,7 @@ module.exports = function (g) {
 						) / 60 : 0;
 
 					// Schlechteres Rating je kürzer frei
-					result.score -= Math.round(0.5 * Math.pow(0.5 * unblockedInMinutes, 2));
+					result.score -= Math.round(0.75 * Math.pow(0.5 * unblockedInMinutes, 2));
 
 					// 250 Punkte Abzug, wenn aktuell belegt
 					if (result.occupiedTill) {
@@ -167,20 +167,23 @@ module.exports = function (g) {
 
 					/** TEXT **/
 					if (result.occupiedTill && result.thenFreeTill) {
-						result.text = 'bis ' + result.occupiedTill.format('k:mm') + ' Uhr belegt, dann bis ' + result.thenFreeTill.format('k:mm') + ' Uhr frei';
+						result.text = 'bis ' + result.occupiedTill.format('H:mm') + ' Uhr belegt, dann bis ' + result.thenFreeTill.format('H:mm') + ' Uhr frei';
 					}
 					else if (result.occupiedTill) {
-						result.text = 'bis ' + result.occupiedTill.format('k:mm') + ' Uhr belegt, dann frei';
+						result.text = 'bis ' + result.occupiedTill.format('H:mm') + ' Uhr belegt, dann frei';
 					}
 					else if (result.freeTill && result.thenOccupiedTill) {
-						result.text = 'bis ' + result.freeTill.format('k:mm') + ' Uhr frei, dann bis ' + result.thenOccupiedTill.format('k:mm') + ' Uhr belegt';
+						result.text = 'bis ' + result.freeTill.format('H:mm') + ' Uhr frei, dann bis ' + result.thenOccupiedTill.format('H:mm') + ' Uhr belegt';
 					}
 					else if (result.freeTill) {
-						result.text = 'bis ' + result.freeTill.format('k:mm') + ' Uhr frei, dann belegt';
+						result.text = 'bis ' + result.freeTill.format('H:mm') + ' Uhr frei, dann belegt';
 					}
 					else {
 						result.text = 'frei';
 					}
+
+					/** CHECKIN ALLOWED **/
+					result.checkinAllowed = result.freeTill && result.freeTill.unix() - moment().unix() > 1800;
 
 					return result;
 				});
