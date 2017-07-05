@@ -44,6 +44,7 @@ module.exports = function (g) {
 				]
 			}).then(function (rooms) {
 				rooms = rooms.map(function (r) {
+					const timezone = 'Europe/Berlin';
 					let occupanciesDone = false;
 					let unblockedInMinutes;
 
@@ -167,16 +168,19 @@ module.exports = function (g) {
 
 					/** TEXT **/
 					if (result.occupiedTill && result.thenFreeTill) {
-						result.text = 'bis ' + result.occupiedTill.format('H:mm') + ' Uhr belegt, dann bis ' + result.thenFreeTill.format('H:mm') + ' Uhr frei';
+						result.text = 'bis ' + result.occupiedTill.tz(timezone).format('H:mm') + ' Uhr belegt, ' +
+							'dann bis ' + result.thenFreeTill.tz(timezone).format('H:mm') + ' Uhr frei';
 					}
 					else if (result.occupiedTill) {
-						result.text = 'bis ' + result.occupiedTill.format('H:mm') + ' Uhr belegt, dann frei';
+						result.text = 'bis ' + result.occupiedTill.tz(timezone).format('H:mm') + ' Uhr belegt, ' +
+							'dann frei';
 					}
 					else if (result.freeTill && result.thenOccupiedTill) {
-						result.text = 'bis ' + result.freeTill.format('H:mm') + ' Uhr frei, dann bis ' + result.thenOccupiedTill.format('H:mm') + ' Uhr belegt';
+						result.text = 'bis ' + result.freeTill.tz(timezone).format('H:mm') + ' Uhr frei, ' +
+							'dann bis ' + result.thenOccupiedTill.tz(timezone).format('H:mm') + ' Uhr belegt';
 					}
 					else if (result.freeTill) {
-						result.text = 'bis ' + result.freeTill.format('H:mm') + ' Uhr frei, dann belegt';
+						result.text = 'bis ' + result.freeTill.tz(timezone).format('H:mm') + ' Uhr frei, dann belegt';
 					}
 					else {
 						result.text = 'frei';
