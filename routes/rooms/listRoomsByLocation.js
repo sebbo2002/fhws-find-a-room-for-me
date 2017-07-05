@@ -168,7 +168,7 @@ module.exports = function (g) {
 
 
 					/** COLORS **/
-					if (result.score >= 750) {
+					if (result.score >= 700) {
 						result.color = 'green';
 					}
 					else if (result.freeTill) {
