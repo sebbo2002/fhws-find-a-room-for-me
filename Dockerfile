@@ -7,13 +7,12 @@ RUN adduser -D -g "" app && \
     chown -R app:app /home/app/app && \
     chmod -R 740 /home/app/app && \
     apk add --update bash python make g++ && \
-    npm install -g yarn node-gyp grunt-cli bunyan 2>&1 && \
-    chmod -R 744 /usr/local/lib/node_modules
+    npm install -g node-gyp grunt-cli bunyan 2>&1
 
 COPY ./package.json /home/app/app/
 WORKDIR /home/app/app
 USER app
-RUN yarn install
+RUN npm install
 
 USER root
 COPY ./ /home/app/app/
