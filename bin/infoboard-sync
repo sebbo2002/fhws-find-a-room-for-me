@@ -60,8 +60,8 @@ async.waterfall([
 
 			valid = true;
 			entry = {
-				from: moment(match[1], 'YYYY.MM.DD HH:mm:ss'),
-				till: moment(match[2], 'YYYY.MM.DD HH:mm:ss'),
+				from: moment.tz(match[1], 'YYYY.MM.DD HH:mm:ss', 'Europe/Berlin'),
+				till: moment.tz(match[2], 'YYYY.MM.DD HH:mm:ss', 'Europe/Berlin'),
 				location: match[9],
 				room: match[4],
 				title: match[5].toString(),
