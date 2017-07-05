@@ -7,7 +7,7 @@ RUN adduser -D -g "" app && \
     chown -R app:app /home/app/app && \
     chmod -R 740 /home/app/app && \
     apk add --update bash python make g++ && \
-    npm install -g node-gyp grunt-cli bunyan 2>&1
+    npm install -g node-gyp grunt-cli 2>&1
 
 COPY ./package.json /home/app/app/
 WORKDIR /home/app/app
