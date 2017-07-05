@@ -124,24 +124,38 @@ module.exports = function (g) {
 					/** SCORE **/
 					result.score = 800;
 
-					// minutes, this room is not blocked
-					unblockedInMinutes = result.occupiedTill ? Math.floor(
-							result.occupiedTill.unix() - moment().unix()
-						) / 60 : 0;
-
 					// Schlechteres Rating je kürzer frei
-					result.score -= Math.round(0.75 * Math.pow(0.5 * unblockedInMinutes, 2));
-
-					// 250 Punkte Abzug, wenn aktuell belegt
-					if (result.occupiedTill) {
-						result.score -= 250;
+					if(result.freeTill) {
+						unblockedInMinutes = Math.floor(result.freeTill.unix() - moment().unix()) / 60;
+						result.score -= Math.round(0.5 * Math.pow(0.1 * Math.max((6 * 60) - unblockedInMinutes, 0), 2));
 					}
 
-					// +30 Punkte wenn Beamer vorhanden
-					result.score += r.inventory_projectors ? 30 : 0;
+					// Schlechteres Rating länger belegt
+					if(result.occupiedTill) {
+						unblockedInMinutes = Math.floor(result.occupiedTill.unix() - moment().unix()) / 60;
+						result.score -= Math.round(0.5 * Math.pow(0.5 * unblockedInMinutes, 2));
+					}
 
-					// +15 Punkte wenn Touch Display vorhanden
-					result.score += r.inventory_speaker_desk_displays ? 15 : 0;
+					// +5 wenn danach komplett frei
+					if(result.occupiedTill && !result.thenFreeTill) {
+						result.score += 5;
+					}
+					else if(result.occupiedTill && result.thenFreeTill) {
+						unblockedInMinutes = Math.floor(result.thenFreeTill.unix() - result.occupiedTill.unix()) / 60;
+						result.score -= Math.round(0.1 * unblockedInMinutes);
+						result.debug = Math.round(0.1 * unblockedInMinutes);
+					}
+
+					// 100 Punkte Abzug, wenn aktuell belegt
+					if (result.occupiedTill) {
+						result.score -= 100;
+					}
+
+					// +10 Punkte wenn Beamer vorhanden
+					result.score += r.inventory_projectors ? 10 : 0;
+
+					// +5 Punkte wenn Touch Display vorhanden
+					result.score += r.inventory_speaker_desk_displays ? 5 : 0;
 
 					// Punkte abziehen wenn Raum zu groß für Lerngruppen
 					if (r.inventory_seats) {
@@ -155,10 +169,10 @@ module.exports = function (g) {
 
 
 					/** COLORS **/
-					if (result.score > 725) {
+					if (result.score >= 750) {
 						result.color = 'green';
 					}
-					else if (result.occupiedTill) {
+					else if (result.freeTill) {
 						result.color = 'orange';
 					}
 					else {
