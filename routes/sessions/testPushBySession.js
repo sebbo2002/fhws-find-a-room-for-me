@@ -8,7 +8,7 @@ module.exports = function (g) {
 
 		code: function (req, res) {
 			const FCM = require('fcm-push');
-			const fcm = FCM(g.config.pushServerKey);
+			const fcm = new FCM(g.config.pushServerKey);
 			const log = g.log('routes/session/testPushBySession', {req, res});
 
 			if(!req.params.id || req.params.id.length < 8) {
@@ -40,8 +40,8 @@ module.exports = function (g) {
 				fcm.send({
 					to: session.push_token,
 					notification: {
-						title: 'Seid ihr noch alle daaa?',
-						body: 'Bitte öffne find a room for.me, um dein Checkin zu verlängern…'
+						title: 'Bist Du noch in H.1.11?',
+						body: 'Tippe um Checkin zu verlängern…'
 					}
 				}, function (err) {
 					if (err) {
