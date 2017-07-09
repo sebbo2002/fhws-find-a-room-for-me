@@ -11,7 +11,7 @@ module.exports = function (g) {
 			const fcm = FCM(g.config.pushServerKey);
 			const log = g.log('routes/session/testPushBySession', {req, res});
 
-			if(!req.params.id || !req.params.id.length < 8) {
+			if(!req.params.id || req.params.id.length < 8) {
 				return res.status(404).send({
 					message: 'Not able to find session…',
 					reference: null
