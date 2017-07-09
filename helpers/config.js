@@ -7,6 +7,7 @@ module.exports = function () {
 	config.url = process.env.URL || 'http://localhost' + (config.port === 80 ? '' : ':' + config.port);
 	config.database = process.env.DB || 'mysql://127.0.0.1:3306/find-me-a-room';
 	config.infoBoardURL = process.env.INFOBOARD_URL || 'https://infoboard.fhws.de/';
+	config.pushServerKey = process.env.FCM_SERVER_KEY || null;
 
 	config.states = [
 		{
