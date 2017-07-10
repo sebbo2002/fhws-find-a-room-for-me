@@ -35,6 +35,10 @@ module.exports = function (DataTypes) {
 			till: {
 				type: DataTypes.DATE,
 				allowNull: false
+			},
+			verified_till: {
+				type: DataTypes.DATE,
+				allowNull: true
 			}
 		},
 

@@ -22,7 +22,7 @@ module.exports = function (options) {
 	};
 	g.shutdown = function () {
 		const log = g.log('shutdown');
-		let count = g.onShutdown.callbacks.length;
+		let count = g.onShutdown.callbacks ? g.onShutdown.callbacks.length : 0;
 
 		log.debug('Initialize shutdown…');
 
@@ -42,6 +42,11 @@ module.exports = function (options) {
 				}
 			});
 		});
+
+		if(count === 0) {
+			log.warn('Instant shutdown…');
+			process.exit();
+		}
 
 		setTimeout(function () {
 			log.warn('Shutdown timeout…');
