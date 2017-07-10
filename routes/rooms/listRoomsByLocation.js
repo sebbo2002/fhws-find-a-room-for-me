@@ -201,6 +201,9 @@ module.exports = function (g) {
 
 					/** CHECKIN ALLOWED **/
 					result.checkinAllowed = result.freeTill && result.freeTill.unix() - moment().unix() > 1800;
+					if(result.freeTill || result.occupiedTill) {
+						result.checkinAllowed = true;
+					}
 
 					return result;
 				});
