@@ -151,8 +151,8 @@ module.exports = function (g) {
 				},
 				function returnResult(checkin, cb) {
 					res.status(200).send({
-						roomId: checkin.room_id,
-						stateId: checkin.state_id,
+						roomId: checkin.room,
+						stateId: checkin.state,
 						description: checkin.description,
 						from: moment(checkin.from).toJSON(),
 						maxTill: moment(checkin.till).toJSON(),
