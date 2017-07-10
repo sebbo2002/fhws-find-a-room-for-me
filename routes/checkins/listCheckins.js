@@ -21,6 +21,7 @@ module.exports = function (g) {
 			}).then(function (checkins) {
 				res.send(checkins.map(function (checkin) {
 					return {
+						id: checkin.id,
 						roomId: checkin.room_id,
 						stateId: checkin.state,
 						description: checkin.description,

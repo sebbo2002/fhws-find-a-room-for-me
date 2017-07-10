@@ -151,6 +151,7 @@ module.exports = function (g) {
 				},
 				function returnResult(checkin, cb) {
 					res.status(200).send({
+						id: checkin.id,
 						roomId: checkin.room,
 						stateId: checkin.state,
 						description: checkin.description,
