@@ -14,6 +14,7 @@ module.exports = function (g) {
 						id: state.id,
 						emoji: state.emoji,
 						title: state.title,
+						descriptionHeadline: state.descriptionHeadline,
 						description: state.description,
 						commentRequired: state.commentRequired
 					}))

@@ -22,6 +22,7 @@ module.exports = function () {
 			id: 1,
 			emoji: '⛔️',
 			title: 'Privat',
+			descriptionHeadline: 'Was bedeutet „Privat“?',
 			description: 'Wenn du „Privat“ auswählst, bekommen alle Kommilitonen den Raum als belegt angezeigt.',
 			commentRequired: false,
 			checkinAllowed: true
@@ -30,6 +31,7 @@ module.exports = function () {
 			id: 2,
 			emoji: '🔇',
 			title: 'Leise',
+			descriptionHeadline: '„Leise“?',
 			description: 'Wenn du „Leise“ auswählst, bekommen alle Kommilitonen den Raum als belegt angezeigt. Sie dürfen allerdings mit zu Dir kommen, wenn sie leise sind.',
 			commentRequired: false,
 			checkinAllowed: true
@@ -38,6 +40,7 @@ module.exports = function () {
 			id: 3,
 			emoji: '🤓',
 			title: 'Tutorium',
+			descriptionHeadline: 'Wann wähle ich „Tutorium“?',
 			description: 'Indem du „Tutorium“ auswählst kannst du Kommilitonen darauf aufmerksam machen, dass hier ein privates Tutorium stattfindet.',
 			commentRequired: true,
 			checkinAllowed: true
