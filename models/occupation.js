@@ -25,7 +25,7 @@ module.exports = function (DataTypes) {
 				allowNull: true
 			},
 			lecturer: {
-				type: DataTypes.STRING(64),
+				type: DataTypes.STRING(128),
 				allowNull: true
 			},
 			from: {

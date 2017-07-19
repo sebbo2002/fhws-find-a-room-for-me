@@ -52,6 +52,7 @@ module.exports = function (g) {
 
 
 	// sequelize
+	result.Sequelize = Sequelize;
 	result.sequelize = sequelize;
 
 
