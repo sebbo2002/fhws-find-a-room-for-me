@@ -23,6 +23,16 @@ module.exports = function (g) {
 				res.send(occupations.map(function (data) {
 					const state = g.config.states.filter(state => state.id === data.state)[0] || {};
 
+					if(state.id === 1) {
+						data.title = 'Checkin (privat)';
+					}
+					else if(state.id === 2) {
+						data.title = 'Checkin (öffentlich)';
+					}
+					else if(state.id === 3) {
+						data.title = 'Checkin: Tutorium';
+					}
+
 					return {
 						id: data.id,
 						emoji: state.emoji || null,
