@@ -1,7 +1,12 @@
+stages:
+  - build
+  - deploy
+
 build_image:
   image: docker:git
   services:
   - docker:dind
+  stage: build
   tags:
     - matt.sebbo.net
     - docker
@@ -17,6 +22,7 @@ push_develop:
   image: docker:git
   services:
   - docker:dind
+  stage: build
   tags:
     - matt.sebbo.net
     - docker
@@ -52,3 +58,21 @@ push_develop:
     - git push
   only:
     - develop
+
+deploy_develop:
+  stage: deploy
+  tags:
+    - matt.sebbo.net
+    - ssh
+  script:
+    - docker pull docker.sebbo.net/sebbo2002/fhws-find-me-a-room-2/image
+    - docker stop "findaroomforme"
+    - docker rm "findaroomforme"
+    - docker create --restart "always" --name="findaroomforme" \
+        -p 127.0.0.1:10039:8080 \
+        --link mariadb:db \
+        -e 'URL=https://api.find-a-room-for.me' \
+        -e 'DB=mysql://findaroomforme:vtw8hQUcs4m4XpNBR27P@db:3306/findaroomforme_production' \
+        -e 'FCM_SERVER_KEY=AAAAPjG5RJg:APA91bEMZMoUFVChFTDFWyJVCCAxA3TUyGEIE-EzRU1gXzE9Y-oUyzYnZr_-jHQHdMpmFINFED16AO6UmQ5rLgYwhV5gz7E0y1P_Rex5KtuiUFaZhXT3OXPN6MtPMOgyySApElzXxB9r' \
+        docker.sebbo.net/sebbo2002/fhws-find-me-a-room-2/image
+    - docker start findaroomforme
