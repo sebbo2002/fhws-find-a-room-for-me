@@ -161,6 +161,16 @@ module.exports = function (g) {
 						result.score -= Math.min(Math.max(r.inventory_seats - 30, 0), 100);
 					}
 
+					//+ 300 für offene Räume
+					if(r.state === 2) {
+						result.score += 300;
+					}
+
+					//+ 200 für Tutorien
+					if(r.state === 3) {
+						result.score += 200;
+					}
+
 					result.score = Math.round(result.score);
 					result.score = Math.max(result.score, 0);
 					result.score = Math.min(result.score, 1024);
@@ -180,7 +190,16 @@ module.exports = function (g) {
 
 
 					/** TEXT **/
-					if (result.occupiedTill && result.thenFreeTill) {
+					if(r.state === 1) {
+						result.text = 'Reserviert';
+					}
+					else if(r.state === 2) {
+						result.text = 'Geöffnet, bitte leise sein…';
+					}
+					else if(r.state === 3) {
+						result.text = 'Privat-Tutorium';
+					}
+					else if (result.occupiedTill && result.thenFreeTill) {
 						result.text = 'bis ' + result.occupiedTill.tz(timezone).format('H:mm') + ' Uhr belegt, ' +
 							'dann bis ' + result.thenFreeTill.tz(timezone).format('H:mm') + ' Uhr frei';
 					}
