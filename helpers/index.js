@@ -85,17 +85,6 @@ module.exports = function (options) {
 	// Object mit Server Instanzen
 	if (!options.noServer) {
 		require('./routes.js')(g);
-
-		if(g.Raven) {
-			g.app.use(g.Raven.errorHandler());
-		}
-
-		g.app.use(function onError(err, req, res) {
-			res.status(500).send({
-				message: 'Unknown Error, I\'m so sorry…',
-				reference: res.sentry || null
-			});
-		});
 	}
 
 	return g;

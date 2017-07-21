@@ -179,17 +179,22 @@ module.exports = function (g) {
 				g.routes.push(route);
 				cb();
 			}, cb);
-		}/*,
-		function addStaticRoutes (foo, cb) {
-			g.app.use(g.express.static(path.resolve(__dirname + '/../static/')));
-			cb();
 		},
-		function addNotFoundRoute (cb) {
-			g.app.use(function (req, res) {
-				res.sendFile(path.resolve(__dirname + '/../static/index.html'));
+		function addErrorRoutes (foo, cb) {
+			if(g.Raven) {
+				g.app.use(g.Raven.errorHandler());
+			}
+
+			g.app.use(function onError(err, req, res) {
+				res.statusCode = 500;
+				res.end(JSON.stringify({
+					message: 'Unknown Error, I\'m so sorry…',
+					reference: res.sentry || null
+				}));
 			});
-			cb(null, g.routes);
-		}*/
+
+			cb();
+		}
 	], function (error) {
 		if (error) {
 			log.fatal(error);
