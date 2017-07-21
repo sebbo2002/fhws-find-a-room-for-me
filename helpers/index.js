@@ -2,6 +2,7 @@ module.exports = function (options) {
 	'use strict';
 
 	const EventEmitter = require('events').EventEmitter;
+	const Raven = require('raven');
 	const g = new EventEmitter();
 
 	options = options || {};
@@ -9,6 +10,15 @@ module.exports = function (options) {
 	// config & version
 	g.config = require('./config.js')();
 	g.version = require('../package.json').version;
+
+	// Raven initialize
+	if(g.config.ravenDSN) {
+		Raven.config(g.config.ravenDSN, {
+			autoBreadcrumbs: true
+		}).install();
+
+		g.Raven = Raven;
+	}
 
 	// is
 	g.is = {
@@ -26,6 +36,7 @@ module.exports = function (options) {
 
 		log.debug('Initialize shutdown…');
 
+		g.onShutdown.callbacks = g.onShutdown.callbacks || [];
 		g.onShutdown.callbacks.forEach(function (module) {
 			const timeout = setTimeout(function () {
 				log.debug('Module `%s` still not ready after 5s…', module.name);
@@ -59,6 +70,10 @@ module.exports = function (options) {
 		g.express = require('express');
 		g.app = g.express();
 
+		if(g.config.ravenDSN) {
+			g.app.use(Raven.requestHandler());
+		}
+
 		g.app.use(require('body-parser').json());
 		g.app.set('trust proxy', ['loopback', 'linklocal', 'uniquelocal'])
 	}
@@ -72,6 +87,17 @@ module.exports = function (options) {
 	// Object mit Server Instanzen
 	if (!options.noServer) {
 		require('./routes.js')(g);
+
+		if(g.config.ravenDSN) {
+			g.app.use(Raven.errorHandler());
+		}
+
+		g.app.use(function onError(err, req, res) {
+			res.status(500).send({
+				message: 'Unknown Error, I\'m so sorry…',
+				reference: res.sentry || null
+			});
+		});
 	}
 
 	return g;

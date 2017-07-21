@@ -128,7 +128,20 @@ module.exports = function (g) {
 
 							log.log(req.route.stack[0].method.toUpperCase(), req.url);
 
-							route.code(req, res, session.user, session);
+							if(g.Raven) {
+								g.Raven.context(function () {
+									g.Raven.setContext({
+										user: {
+											id: session.id
+										}
+									});
+
+									route.code(req, res);
+								});
+							}else{
+								route.code(req, res);
+							}
+
 							cb(null, session);
 						},
 						function updateSession (session, cb) {

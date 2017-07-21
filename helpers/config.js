@@ -8,6 +8,7 @@ module.exports = function () {
 	config.database = process.env.DB || 'mysql://127.0.0.1:3306/find-me-a-room';
 	config.infoBoardURL = process.env.INFOBOARD_URL || 'https://infoboard.fhws.de/';
 	config.pushServerKey = process.env.FCM_SERVER_KEY || null;
+	config.ravenDSN = process.env.RAVEN_DSN || null;
 
 	config.states = [
 		{
