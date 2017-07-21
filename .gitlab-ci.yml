@@ -70,8 +70,8 @@ deploy_develop:
   script:
     - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN docker.sebbo.net
     - docker pull docker.sebbo.net/sebbo2002/fhws-find-me-a-room-2/image
-    - docker stop "findaroomforme"
-    - docker rm "findaroomforme"
+    - docker stop "findaroomforme" || true
+    - docker rm "findaroomforme" || true
     - docker create --restart "always" --name="findaroomforme" -p 127.0.0.1:10039:8080 --link mariadb:db -e "URL=https://api.find-a-room-for.me" -e "DB=${PRODUCTION_DB}" -e "FCM_SERVER_KEY=${PRODUCTION_FCM_SERVER_KEY}" -e "RAVEN_DSN=${PRODUCTION_RAVEN_DSN}" docker.sebbo.net/sebbo2002/fhws-find-me-a-room-2/image
     - docker start findaroomforme
   only:
