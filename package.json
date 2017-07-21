@@ -31,7 +31,7 @@
     "moment": "^2.18.1",
     "moment-timezone": "^0.5.13",
     "mysql": "^2.5.1",
-    "raven": "^0.7.3",
+    "raven": "^2.1.0",
     "request": "^2.81.0",
     "sequelize": "^3.14.0",
     "underscore": "^1.7.0"
