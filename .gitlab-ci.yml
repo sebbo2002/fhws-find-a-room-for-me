@@ -64,7 +64,11 @@ deploy_develop:
   tags:
     - matt.sebbo.net
     - ssh
+  environment:
+    name: production
+    url: https://api.find-a-room-for.me
   script:
+    - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN docker.sebbo.net
     - docker pull docker.sebbo.net/sebbo2002/fhws-find-me-a-room-2/image
     - docker stop "findaroomforme"
     - docker rm "findaroomforme"
@@ -76,3 +80,5 @@ deploy_develop:
         -e 'FCM_SERVER_KEY=AAAAPjG5RJg:APA91bEMZMoUFVChFTDFWyJVCCAxA3TUyGEIE-EzRU1gXzE9Y-oUyzYnZr_-jHQHdMpmFINFED16AO6UmQ5rLgYwhV5gz7E0y1P_Rex5KtuiUFaZhXT3OXPN6MtPMOgyySApElzXxB9r' \
         docker.sebbo.net/sebbo2002/fhws-find-me-a-room-2/image
     - docker start findaroomforme
+  only:
+    - develop
