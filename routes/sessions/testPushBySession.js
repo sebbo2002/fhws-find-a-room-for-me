@@ -40,8 +40,8 @@ module.exports = function (g) {
 				fcm.send({
 					to: session.push_token,
 					notification: {
-						title: 'Bist Du noch in H.1.11?',
-						body: 'Tippe um Checkin zu verlängern…'
+						title: req.body.title || 'Bist Du noch in I.2.1?',
+						body: req.body.body || 'Tippe um Checkin zu verlängern…'
 					}
 				}, function (err) {
 					if (err) {
