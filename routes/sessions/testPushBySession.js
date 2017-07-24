@@ -45,7 +45,7 @@ module.exports = function (g) {
 					}
 				}, function (err) {
 					if (err) {
-						const logged = log.error(error);
+						const logged = log.error(err);
 						res.status(400).send({
 							message: err.toString(),
 							reference: logged.id
