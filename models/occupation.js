@@ -13,7 +13,7 @@ module.exports = function (DataTypes) {
 				allowNull: false
 			},
 			title: {
-				type: DataTypes.STRING(64),
+				type: DataTypes.STRING(128),
 				allowNull: true
 			},
 			description: {
