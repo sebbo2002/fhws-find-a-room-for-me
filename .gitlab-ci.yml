@@ -9,50 +9,8 @@ build_image:
     - ssh
   script:
     - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN docker.sebbo.net
-    - docker pull docker.sebbo.net/sebbo2002/fhws-find-me-a-room-2/image:latest
-    - docker build -t docker.sebbo.net/sebbo2002/fhws-find-me-a-room-2/image --cache-from docker.sebbo.net/sebbo2002/fhws-find-me-a-room-2/image:latest .
-    - docker push docker.sebbo.net/sebbo2002/fhws-find-me-a-room-2/image:latest
-  only:
-    - develop
-
-push_develop:
-  image: docker:git
-  services:
-  - docker:dind
-  stage: build
-  tags:
-    - matt.sebbo.net
-    - docker
-  script:
-    - pwd
-    - git clone ${BITBUCKET_URL} bitbucket
-    - cd ./bitbucket/
-    - git status
-    - git checkout ${CI_COMMIT_REF_NAME}
-    - git status
-    - rm -rf ./backend/
-    - mkdir -p ./backend/
-    - cd ../
-    - mv ./bin ./bitbucket/backend/
-    - mv ./helpers ./bitbucket/backend/
-    - mv ./migrations ./bitbucket/backend/
-    - mv ./models ./bitbucket/backend/
-    - mv ./routes ./bitbucket/backend/
-    - mv ./.dockerfile ./bitbucket/backend/
-    - mv ./.gitignore ./bitbucket/backend/
-    - mv ./.gitlab-ci.yml ./bitbucket/backend/
-    - mv ./Dockerfile ./bitbucket/backend/
-    - mv ./gruntfile.js ./bitbucket/backend/
-    - mv ./package.json ./bitbucket/backend/
-    - mv ./server.js ./bitbucket/backend/
-    - MESSAGE=$(git log -1 --pretty=%B)
-    - cd ./bitbucket/
-    - git add -A
-    - git status
-    - git config --global user.email "${COMMITTER_MAIL}"
-    - git config --global user.name "${COMMITTER_NAME}"
-    - git commit -m "[Backend] ${MESSAGE}"
-    - git push
+    - docker build -t docker.sebbo.net/fhws/find-me-a-room .
+    - docker push docker.sebbo.net/fhws/find-me-a-room
   only:
     - develop
 
@@ -66,10 +24,10 @@ deploy_develop:
     url: https://api.find-a-room-for.me
   script:
     - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN docker.sebbo.net
-    - docker pull docker.sebbo.net/sebbo2002/fhws-find-me-a-room-2/image
+    - docker pull docker.sebbo.net/fhws/find-me-a-room
     - docker stop "findaroomforme" || true
     - docker rm "findaroomforme" || true
-    - docker create --restart "always" --name="findaroomforme" -p 127.0.0.1:10039:8080 --link mariadb:db -e "URL=https://api.find-a-room-for.me" -e "DB=${PRODUCTION_DB}" -e "FCM_SERVER_KEY=${PRODUCTION_FCM_SERVER_KEY}" -e "RAVEN_DSN=${PRODUCTION_RAVEN_DSN}" docker.sebbo.net/sebbo2002/fhws-find-me-a-room-2/image
+    - docker create --restart "always" --name="findaroomforme" -p 127.0.0.1:10039:8080 --link mariadb:db -e "URL=https://api.find-a-room-for.me" -e "DB=${PRODUCTION_DB}" -e "FCM_SERVER_KEY=${PRODUCTION_FCM_SERVER_KEY}" -e "RAVEN_DSN=${PRODUCTION_RAVEN_DSN}" docker.sebbo.net/fhws/find-me-a-room
     - docker start findaroomforme
   only:
     - develop
