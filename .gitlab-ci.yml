@@ -14,7 +14,16 @@ build_image:
   only:
     - develop
 
-deploy_develop:
+publish_github:
+  stage: build
+  tags:
+    - matt.sebbo.net
+    - ssh
+  script:
+    - git push "https://${GITHUB_AUTH}@github.com/sebbo2002/fhws-find-a-room-for-me.git" --all
+    - git push "https://${GITHUB_AUTH}@github.com/sebbo2002/fhws-find-a-room-for-me.git" --tags
+
+deployment:
   stage: deploy
   tags:
     - matt.sebbo.net
