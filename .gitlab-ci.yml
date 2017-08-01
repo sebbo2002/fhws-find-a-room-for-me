@@ -12,7 +12,7 @@ build_image:
     - docker build -t docker.sebbo.net/fhws/find-me-a-room .
     - docker push docker.sebbo.net/fhws/find-me-a-room
   only:
-    - develop
+    - master
 
 publish_github:
   stage: build
@@ -39,4 +39,12 @@ deployment:
     - docker create --restart "always" --name="findaroomforme" -p 127.0.0.1:10039:8080 --link mariadb:db -e "URL=https://api.find-a-room-for.me" -e "DB=${PRODUCTION_DB}" -e "FCM_SERVER_KEY=${PRODUCTION_FCM_SERVER_KEY}" -e "RAVEN_DSN=${PRODUCTION_RAVEN_DSN}" docker.sebbo.net/fhws/find-me-a-room
     - docker start findaroomforme
   only:
-    - develop
+    - master
+
+trigger_dockerhub:
+  stage: deploy
+  tags:
+    - matt.sebbo.net
+    - ssh
+  script:
+    - curl -q "https://registry.hub.docker.com/u/sebbo2002/fhws-find-a-room-for-me/trigger/5a64f004-9f73-48c7-ba33-11b1ad261599/"
