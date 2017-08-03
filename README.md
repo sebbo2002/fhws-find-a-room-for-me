@@ -1,6 +1,6 @@
 # find-a-room-for.me Backend
-
 [![License](https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square)](LICENSE)
+[![Status](https://git-badges.sebbo.net/54/master/build)](https://git.sebbo.net/fhws/find-me-a-room/pipelines)
 
 ### Installation
 
