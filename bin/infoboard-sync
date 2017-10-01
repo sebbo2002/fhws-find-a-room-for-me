@@ -170,6 +170,11 @@ async.waterfall([
 					t.occupation.course = entry.tag;
 					t.occupation.lecturer = entry.person;
 					t.occupation.updated_at = new Date();
+
+					if(t.occupation.title.length > 128) {
+						t.occupation.title = t.occupation.title.substr(0, 127) + '…';
+					}
+
 					t.occupation.save().then(function () {
 						cb(null, t);
 					}).catch(function (err) {
