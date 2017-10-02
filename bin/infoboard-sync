@@ -190,9 +190,14 @@ async.waterfall([
 						throw new Error('Hä? 2');
 					}
 
+					let title = entry.title || g.config.states[0].title;
+					if(title.length > 128) {
+						title = title.substr(0, 127) + '…';
+					}
+
 					g.models.occupation.create({
 						state: g.config.states[0].id,
-						title: entry.title || g.config.states[0].title,
+						title: title,
 						description: entry.notice || null,
 						course: entry.tag,
 						lecturer: entry.person,
