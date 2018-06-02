@@ -163,10 +163,20 @@ async.waterfall([
 						return cb(null, t);
 					}
 
+                    let title = entry.title || g.config.states[0].title;
+                    if(title.length > 128) {
+                        title = title.substr(0, 127) + '…';
+                    }
+
+                    let description = entry.notice || null;
+                    if(description && description.length > 256) {
+                        description = description.substr(0, 255) + '…';
+                    }
+
 					t.occupation.from = entry.from.toDate();
 					t.occupation.till = entry.till.toDate();
-					t.occupation.title = entry.title;
-					t.occupation.description = entry.description;
+					t.occupation.title = title;
+					t.occupation.description = description;
 					t.occupation.course = entry.tag;
 					t.occupation.lecturer = entry.person;
 					t.occupation.updated_at = new Date();
@@ -195,10 +205,15 @@ async.waterfall([
 						title = title.substr(0, 127) + '…';
 					}
 
+                    let description = entry.notice || null;
+                    if(description && description.length > 256) {
+                        description = description.substr(0, 255) + '…';
+                    }
+
 					g.models.occupation.create({
 						state: g.config.states[0].id,
 						title: title,
-						description: entry.notice || null,
+						description: description,
 						course: entry.tag,
 						lecturer: entry.person,
 						from: entry.from.toDate(),
