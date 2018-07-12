@@ -178,7 +178,7 @@ async.waterfall([
 					t.occupation.title = title;
 					t.occupation.description = description;
 					t.occupation.course = entry.tag;
-					t.occupation.lecturer = entry.person;
+					t.occupation.lecturer = entry.person ? entry.person.substr(0, 128) : null;
 					t.occupation.updated_at = new Date();
 
 					if(t.occupation.title.length > 128) {
